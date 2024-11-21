@@ -19,16 +19,24 @@ def demo(project_TCGA, output_language="Chinese"):
 
     if output_language == "Chinese":
         output1 = f"✍️ 简称：{project_TCGA}\n❤️ 中文全称：{name_Chinese}\n💛 英文全称：{name_English}\n🔗 链接：{tcga_link}"
-        system_instruction = f"您是系统生物学、流行病学、癌症研究和精准医学领域的专家，对{name_Chinese}有着深刻的洞察。"
+        system_instruction = f"您是公共卫生、流行病学、癌症研究和精准医学领域的专家，对{name_Chinese}有着深刻的洞察。"
         prompt_template = f"""
-您的任务是深入分析{name_Chinese}这种复杂疾病的表型和有效预防，并深入探索其发病和进展中涉及的关键的分子机制与信号通路。
-让我们一步一步地思考。
+您的任务是撰写关于{name_Chinese}这种复杂疾病的摘要介绍。关键在于在信息的精准性与易懂性之间取得好的平衡，并确保内容引人入胜。通过合理的结构设计、清晰的语言表达以及专业与通俗版本的融合，既能满足专业人士的需求，又能帮助普通大众理解。因此，您必须充分考虑以下具体要求：
+1 - 明确目标受众。在撰写时，采用分层的信息结构，以更好地满足不同读者群体的需求。具体来说，内容可分为两个主要层次：一是为专家和研究人员提供详尽的分析与解释；二是面向普通大众，给出通俗易懂的概述。
+2 - 简明扼要的引言部分。引言部分应通俗易懂，概述{name_Chinese}的基本信息，并以通俗易懂的方式向普通大众解释。关键要点如下：（1）疾病名称与定义：简单定义{name_Chinese}，让读者知道它是什么。（2）患病人群与流行病学概述：简要提到{name_Chinese}的患病率、常见人群或特定风险因素。（3）重要性与影响：阐述关注{name_Chinese}为何重要，它对患者、社会或公共卫生的影响。
+3 - 医学机制与病理生理的清晰解释。对于专业人士而言，理解{name_Chinese}的深层病理机制和生物学背景至关重要，因此必须深入探索并分析其发病和进展过程中涉及的关键分子机制及信号通路。在这一部分，虽然可以使用生物医学术语，但必须确保这些术语不会过于晦涩难懂，以免降低信息的可读性和理解度。对于普通大众来说，更适合从{name_Chinese}如何影响人体的角度进行阐述。这样能帮助他们更好地认识{name_Chinese}的本质，以及{name_Chinese}对人体健康可能产生的潜在影响。
+4 - 症状与诊断。此部分需准确列出{name_Chinese}的常见表型、症状及诊断方法。对于专业人士，应提及相关检查和诊断标准；而对于大众，则需强调常见症状及常用的检测方法。
+5 - 治疗方法。专业版：详细探讨治疗策略，涵盖药物、手术治疗及其他干预手段，同时结合最新的治疗指南。大众版：简要介绍治疗方法，特别是药物治疗以及生活方式改变的建议，如饮食调整和运动。
+6 - 预防和生活方式的建议。这部分可以结合具体的预防措施与生活方式改变建议。专业版：深入探讨预防策略、早期筛查方法，以及饮食与生活方式如何对{name_Chinese}管理产生积极影响。大众版：提供实际可行的日常生活建议，包括健康饮食和适量运动等，旨在帮助人们通过改变生活方式来预防{name_Chinese}。
+7 - 结语与前景展望。在结尾部分，请简明扼要地概括{name_Chinese}所带来的影响，并展望未来。对于专业读者，可探讨未来的研究方向与治疗突破；而对于普通大众，则应分享积极信息以鼓舞人心，同时强调早期诊断与预防措施的重要性。
+8 - 结构和语言。结构：应设置清晰的标题与副标题，确保表达逻辑好。语言：在涉及专业内容时，可适当使用专业术语，但需确保解释清晰；面向普通读者时，应采用类比或简化语言进行说明。
 """.strip()
+
     else:
-        output1 = f"✍️ Abbreviation: {project_TCGA}\n❤️ Full name in Chinese: {name_Chinese}\n💛 Full Name in English: {name_English}\n🔗 Link：{tcga_link}"
-        system_instruction = f"You are an expert in the fields of systems biology, epidemiology, cancer research, and precision medicine, with deep insights into {name_English}."
+        output1 = f"✍️ Abbreviation: {project_TCGA}\n❤️ Full name in Chinese: {name_Chinese}\n💛 Full Name in English: {name_English}\n🔗 Link: {tcga_link}"
+        system_instruction = f"You are an expert in the fields of public health, epidemiology, cancer research, and precision medicine, with deep insights into {name_English}."
         prompt_template = f"""
-Your task is to analyze in depth the phenotypes and effective preventions of {name_English}, and to explore in depth the key molecular mechanisms and signaling pathways involved in its initiation and progression.
+Your task is to thoroughly analyze the basic information about {name_English}, the phenotypes of {name_English} and effective preventions for this disease, and to explore in depth the key molecular mechanisms and signaling pathways involved in its initiation and progression.
 Let's think step by step.
 """.strip()
 
@@ -51,7 +59,7 @@ Let's think step by step.
             n=1,
             seed=42,
             temperature=0.50,
-            max_tokens=2048 if output_language == "Chinese" else 1024,
+            max_tokens=3072 if output_language == "Chinese" else 1024,
             logprobs=False,
             # top_logprobs=3,
             presence_penalty=0.20,
