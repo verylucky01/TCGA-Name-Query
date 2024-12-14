@@ -2,6 +2,8 @@
 
 🎉 TCGA 项目涉及的所有癌症类型的缩写、中英文全称和描述 🧬
 
+![image01.png](./Figures/image01.png)
+
 Gradio app 在线网址：[https://huggingface.co/spaces/happyGPT/TCGA-Name-Query](https://huggingface.co/spaces/happyGPT/TCGA-Name-Query)
 
 ![Snapshot](./Figures/Gradio_TCGA.png)
