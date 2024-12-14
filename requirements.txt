@@ -1,0 +1,6 @@
+openai==1.54.3
+requests==2.29.0
+urllib3==1.25.11
+tenacity==8.2.3
+gradio==4.19.2
+gradio_client==0.10.1
