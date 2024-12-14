@@ -22,7 +22,7 @@ def demo(project_TCGA, output_language="Chinese"):
         system_instruction = f"您是公共卫生、流行病学、癌症研究和精准医学领域的专家，对{name_Chinese}有着深入的理解。"
         prompt_template = f"""
 您的任务是深入分析并撰写关于{name_Chinese}这种复杂疾病的摘要，内容必须准确、详实、逻辑清晰、可读性强，这对普通公众了解这种复杂疾病非常重要。
-具体内容需要包括：1 - {name_Chinese}的基本定义和概述，临床病理特征；2 - {name_Chinese}的病因和风险因素；3 - {name_Chinese}的流行病学调查结果，患病率和死亡率；4 - {name_Chinese}的临床症状与早期识别；5 - {name_Chinese}的疾病进展与转移及其密切相关的生物医学标志物；6 - {name_Chinese}的生存率与预后；7 - {name_Chinese}的诊断、治疗方法和未来研究。
+具体内容需要包括：1 - {name_Chinese}的基本定义和概述，临床病理特征；2 - {name_Chinese}的病因和风险因素；3 - {name_Chinese}的流行病学调查结果，患病率和死亡率；4 - {name_Chinese}的临床症状与早期识别；5 - {name_Chinese}的疾病进展与转移及其密切相关的生物标志物和异常基因改变；6 - {name_Chinese}的生存率与预后；7 - {name_Chinese}的诊断、治疗方法和未来研究。
 """.strip()
 
     else:
@@ -30,7 +30,7 @@ def demo(project_TCGA, output_language="Chinese"):
         system_instruction = f"You are an expert in the fields of public health, epidemiology, cancer research, and precision medicine, with a deep comprehension of {name_English}."
         prompt_template = f"""
 Your task is to analyze and write an in-depth summary of the complex disease of {name_English} with accurate, detailed, logical, and readable content, which is very important for the general public to understand this complex disease.
-Specific content needs to include: 1 - Basic definition and overview of {name_English}, clinicopathologic features; 2 - Etiology and risk factors of {name_English}; 3 - Epidemiologic findings, prevalence, and mortality rates of {name_English}; 4 - Clinical signs and early recognition of {name_English}; 5 - Disease progression and metastasis of {name_English} and its closely related biomedical markers; 6 - Survival and prognosis of {name_English}; and 7 - Diagnosis, therapeutic approaches, and future research of {name_English}.
+Specific content needs to include: 1 - Basic definition and overview of {name_English}, clinicopathologic features; 2 - Etiology and risk factors of {name_English}; 3 - Epidemiologic findings, prevalence, and mortality rates of {name_English}; 4 - Clinical signs and early recognition of {name_English}; 5 - Disease progression and metastasis of {name_English} and its closely related biomarkers and aberrant gene alterations; 6 - Survival and prognosis of {name_English}; and 7 - Diagnosis, therapeutic approaches, and future research of {name_English}.
 """.strip()
 
     try:
