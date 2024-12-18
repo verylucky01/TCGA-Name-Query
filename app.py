@@ -8,11 +8,41 @@ import os
 import platform
 print(platform.python_version())
 
+import Levenshtein
 import gradio as gr
 from openai import OpenAI
 
 
+def find_closest_string(user_input, valid_strings):
+    """查找与输入字符串最接近的字符串，精确的编辑距离，根据 Levenshtein 编辑距离最小原则。"""
+    min_distance = -9999  # 初始化最小编辑距离为负数
+    closest_string = None
+
+    for valid_string in valid_strings:
+        # 计算 Levenshtein 距离：
+        distance = Levenshtein.distance(user_input, valid_string)
+        if distance < min_distance:
+            min_distance = distance
+            closest_string = valid_string
+
+    return closest_string
+
+
+def process_input(user_input):
+    """
+    处理用户输入的字符串：
+      1 - 若在有效集合中则直接返回；
+      2 - 否则返回与用户输入的最接近的有效字符串。
+    """
+    if user_input in valid_strings:
+        return user_input  # 如果用户输入的字符串在集合里，直接返回。
+    else:
+        # 否则，找到编辑距离最小的字符串。
+        return find_closest_string(user_input, valid_strings)
+
+
 def demo(project_TCGA, output_language="Chinese"):
+    project_TCGA = process_input(project_TCGA)
     name_English, name_Chinese = project_name_TCGA[project_TCGA]
     tcga_link = f"https://portal.gdc.cancer.gov/projects/{project_TCGA}"
     output1, output2 = None, None
@@ -29,8 +59,8 @@ def demo(project_TCGA, output_language="Chinese"):
         output1 = f"✍️ Abbreviation: {project_TCGA}\n❤️ Full name in Chinese: {name_Chinese}\n💛 Full Name in English: {name_English}\n🔗 Link: {tcga_link}"
         system_instruction = f"You are an expert in the fields of public health, epidemiology, cancer research, and precision medicine, with a deep comprehension of {name_English}."
         prompt_template = f"""
-Your task is to analyze and write an in-depth summary of the complex disease of {name_English} with accurate, detailed, logical, and readable content, which is very important for the general public to understand this complex disease.
-Specific content needs to include: 1 - Basic definition and overview of {name_English}, clinicopathologic features; 2 - Etiology and risk factors of {name_English}; 3 - Epidemiologic findings, prevalence, and mortality rates of {name_English}; 4 - Clinical signs and early recognition of {name_English}; 5 - Disease progression and metastasis of {name_English} and its closely related biomarkers and aberrant gene alterations; 6 - Survival and prognosis of {name_English}; and 7 - Diagnosis, therapeutic approaches, and future research of {name_English}.
+Your task is to analyze and write an in-depth summary about the complex disease of {name_English} that must be accurate, informative, logical, and readable, which is very important for the general public to understand this complex disease.
+Specific content needs to include: 1 - Basic definition and overview of {name_English}, clinicopathologic features; 2 - Etiology and risk factors of {name_English}; 3 - Epidemiologic findings, prevalence, and mortality rates of {name_English}; 4 - Clinical signs and early recognition of {name_English}; 5 - Disease progression and metastasis of {name_English} and its closely related biomarkers and aberrant gene alterations; 6 - Survival and prognosis of {name_English}; and 7 - Diagnostics, therapeutic approaches, and future research of {name_English}.
 """.strip()
 
     try:
@@ -124,6 +154,8 @@ project_name_TCGA = {
     "TCGA-UCS": ["uterine carcinosarcoma", "子宫癌肉瘤"],
     "TCGA-UVM": ["uveal melanoma", "眼内（葡萄膜）黑色素瘤"],
 }
+# 预定义的字符串集合：
+valid_strings = {input_query for input_query in project_name_TCGA.keys()}
 # print(len(project_name_TCGA.keys()))
 # input_query = input("请输入您要查询的 TCGA 项目名称：")
 # print(project_name_TCGA[input_query])
@@ -149,7 +181,9 @@ my_demo = gr.Interface(
         gr.Dropdown(
             choices=[k for k in project_name_TCGA.keys()],
             value="TCGA-READ",
-            allow_custom_value=False,
+            allow_custom_value=True,
+            filterable=True,
+            interactive=True,
             label="⌨️ 请输入您要查询的 TCGA 项目名称，如 TCGA-READ",
         ),  # Please enter the name of the TCGA project you want to query, such as TCGA-READ.
         gr.Dropdown(
