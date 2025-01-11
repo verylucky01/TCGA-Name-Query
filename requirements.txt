@@ -4,3 +4,5 @@ urllib3==1.25.11
 tenacity==8.2.3
 gradio==4.19.2
 gradio_client==0.10.1
+levenshtein==0.26.1
+rapidfuzz==3.11.0
