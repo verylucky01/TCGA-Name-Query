@@ -15,7 +15,7 @@ from openai import OpenAI
 
 def find_closest_string(user_input, valid_strings):
     """查找与输入字符串最接近的字符串，精确的编辑距离，根据 Levenshtein 编辑距离最小原则。"""
-    min_distance = -9999  # 初始化最小编辑距离为负数
+    min_distance = 999999999  # 初始化最小编辑距离为大的正数
     closest_string = None
 
     for valid_string in valid_strings:
